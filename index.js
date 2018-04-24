@@ -1,3 +1,3 @@
-import fun from './src/test.js';
+import wechat from './src/index.js';
 
-export default fun;
+export default wechat;
