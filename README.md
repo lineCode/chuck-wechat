@@ -1,2 +1,2 @@
-# yangchunboy-wechat
-一个跟微信有关的接口
+# npmDemo
+一个用来上传es6格式npm包的项目
