@@ -1,5 +1,4 @@
 import MD5 from 'md5';
-import request from 'request';
 
 // 生成签名
 export const generateSign = ({ partnerKey, data }) => {
@@ -40,16 +39,4 @@ export const generateXml = (data) => {
 	return `<xml>${xmlStr}</xml>`;
 };
 
-export const requestApi = ({ url, method }) => {
-	return Promise.resolve({
-		then(resolve, reject) {
-			request(url, function (error, response, body) {
-
-				console.log('error:', error); // Print the error if one occurred
-				console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-				console.log('body:', body); // Print the HTML for the Google homepage.
-			});
-		}
-	}) 
-};
 

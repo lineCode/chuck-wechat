@@ -1,13 +1,13 @@
 {
-  "name": "testbabel",
-  "version": "1.0.0",
+  "name": "chuck-wechat",
+  "version": "0.0.1",
   "description": "test",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d lib"
   },
-  "author": "",
+  "author": "yangchunboy",
   "license": "ISC",
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -23,6 +23,20 @@
     "md5": "^2.2.1",
     "moment": "^2.20.1",
     "request": "^2.85.0",
+    "request-promise": "^4.2.2",
     "xml2js": "^0.4.19"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yangchunboy/chuck-wechat.git"
+  },
+  "keywords": [
+    "wechat",
+    "微信支付",
+    "微信扫码支付"
+  ],
+  "bugs": {
+    "url": "https://github.com/yangchunboy/chuck-wechat/issues"
+  },
+  "homepage": "https://github.com/yangchunboy/chuck-wechat#readme"
 }
