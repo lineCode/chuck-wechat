@@ -1,9 +1,9 @@
 
 import { parseString } from 'xml2js';
-import { generateSign, generateRandomStr, generateXml, requestApi } from './utility';
+import { generateSign, generateRandomStr, generateXml } from './utility';
 import { unifiedorderUrl } from './config';
-import request from 'request-promise';
-
+import request from 'request-promise-native';
+// import "babel-polyfill";
 // { appId, appSecret, mchId, partnerKey, notifyUrl }
 class Wechat {
 	constructor(params, partnerKey) {
