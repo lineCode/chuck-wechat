@@ -1,3 +1,10 @@
+# chuck-wechat
+一个用于微信支付和微信授权的npm包（还在逐步完善当中）
+## 安装
+npm的安装方式
+
+    npm install chuck-wechat
+
 ## 扫码支付
 
 > 具体传入的参数参考：https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1
