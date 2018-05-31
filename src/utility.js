@@ -39,4 +39,14 @@ export const generateXml = (data) => {
 	return `<xml>${xmlStr}</xml>`;
 };
 
+// 生成域名后面带的参数
+export const generateParams = (params) => {
+	let str = '';
+	for (let key in params) {
+		str = `${str}&${key}=${params[key]}`;
+	}
+	str = str.substr(1, str.length);
+	return str;
+};
+
 

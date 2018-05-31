@@ -1,22 +1,26 @@
 
 import { parseString } from 'xml2js';
-import { generateSign, generateRandomStr, generateXml } from './utility';
-import { unifiedorderUrl } from './config';
+import { generateSign, generateRandomStr, generateXml, generateParams } from './utility';
+import { unifiedorderUrl, getAccessTokenUrl, userInfoUrl } from './config';
 import request from 'request-promise-native';
-// import "babel-polyfill";
-// { appId, appSecret, mchId, partnerKey, notifyUrl }
+
 class Wechat {
-	constructor(params, partnerKey) {
-		this.params = params;
+	constructor({ appid, mch_id, partnerKey, appSecret }) {
+		this.appid = appid;
+		this.mch_id = mch_id;
 		this.partnerKey = partnerKey;
+		this.appSecret = appSecret;
 	}
 
-	async codePay() {
+	// 微信扫码支付
+	async codePay(params) {
 		const obj = {
 			nonce_str: generateRandomStr(),
 			trade_type: 'NATIVE',
+			appid: this.appid,
+			mch_id: this.mch_id,
 		};
-		const data = this.params;
+		const data = params;
 		Object.assign(data, obj);
 		const sign = generateSign({ data, partnerKey: this.partnerKey });
 		Object.assign(data, { sign });
@@ -28,13 +32,39 @@ class Wechat {
 		});
 		let wechatObj = null;
 		parseString(result.toString(), (err, xml) => {
-			console.log('3333', err, xml);
 			wechatObj = xml.xml;
 		});
 		return wechatObj;
 	}
-	 
-
+	// 微信扫码登录 
+	async codeLogin(code, getUserInfo = false) {
+		const obj = {
+			appid: this.appid,
+			secret: this.secret,
+			code,
+			grant_type: 'authorization_code',
+		};
+		const accesstokenUrl = `${getAccessTokenUrl}${generateParams(obj)}`;
+		const accessTokenResult = await request({
+			method: 'get',
+			uri: `${getAccessTokenUrl}${generateParams(obj)}`,
+		});
+		const accessTokenObj = JSON.parse(accessTokenResult.content);
+		if (!getUserInfo) {
+			return accessTokenObj;
+		}
+		const { access_token, openid } = accessTokenObj;
+		const userParams = {
+			access_token,
+			openid,
+		};
+		const userInfo = await request({
+			method: 'get',
+			uri: `${userInfoUrl}${generateParams(userParams)}`,
+		});
+		const userObj = JSON.parse(userInfo.content);
+		return Object.assign(userObj, accessTokenObj );
+	}
 
 }
 
