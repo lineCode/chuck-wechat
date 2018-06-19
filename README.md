@@ -4,6 +4,20 @@
 npm的安装方式
 
     npm install chuck-wechat
+## 使用方法
+
+    import Wechat from 'chuck-wechat';
+
+    const params = {
+        appid: 'wx1111111111',
+        mch_id: '1111111111',
+        partnerKey: 'xxxxxxxxx',
+        appSecret: 'xxxxxxxx',
+    };// 这四个参数分别对应：公众账号ID，商户号，微信商户key,微信secret.这四个参数都可以在微信开放平台拿到
+    const wechat = new Wechat(params); // 初始化wechat
+    const codePayResult = wechat.codePay(data); // 调用微信扫码支付，具体示例见下
+    const codeLoginResult = wechat.codeLogin(code); // 微信PC扫码授权登录，具体见下
+
 
 ## 扫码支付
 
@@ -12,7 +26,15 @@ npm的安装方式
 > 
 > 扫码支付的示例如下:
 
-    import Wechat from 'chuck-wechat'; 
+    import Wechat from 'chuck-wechat';
+
+    const params = {
+        appid: 'wx1111111111',
+        mch_id: '1111111111',
+        partnerKey: 'xxxxxxxxx',
+        appSecret: 'xxxxxxxx',
+    };
+    const wechat = new Wechat(params);
     const data = {
         appid: 'wx1111111111',
         mch_id: '1111111111',
@@ -23,8 +45,7 @@ npm的安装方式
         attach,
         spbill_create_ip: '127.0.0.1',
     };
-    const wechat = new Wechat(data, partnerkey);
-    const result = wechat.codePay();
+    const result = wechat.codePay(data);
     console.log(result);
 > 如果调用成功的返回结果是:
 
@@ -41,6 +62,40 @@ npm的安装方式
         code_url: [ 'weixin://wxpay/bizpayurl?pr=abcajhdka' ] // 将code_url这个属性转换为二维码
     }
 
+## 微信扫码登录
+
+> 具体参考文档：https://open.weixin.qq.com/cgi-bin/showdocument?action=dir_list&t=resource/res_list&verify=1&id=open1419316505&token=&lang=zh_CN
+> 首先在微信开放平台配置好授权回调域名，用户扫码成功后就会跳回这个授权域名并在域名后面带上code参数，拿到这个code参数，然后调用codeLogin方法，这个方法有两个参数，第一个参数就是code，第二个参数默认是false，如果想拿到微信用户的个人信息，例如：微信昵称，微信头像等就将这个参数传true
 
 
+    import Wechat from 'chuck-wechat';
+
+    const params = {
+        appid: 'wx1111111111',
+        mch_id: '1111111111',
+        partnerKey: 'xxxxxxxxx',
+        appSecret: 'xxxxxxxx',
+    };
+    const wechat = new Wechat(params);
+    const code = 'xxxxxxxxxx';
+    const result = wechat.codeLogin(code, true);
+    console.log(result); 
+
+> 如果调用成功的返回结果是:
+
+    {
+        "openid":"OPENID",
+        "nickname":"NICKNAME",
+        "sex":1,
+        "province":"PROVINCE",
+        "city":"CITY",
+        "country":"COUNTRY",
+        "headimgurl": "http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0",
+        "privilege":[
+        "PRIVILEGE1",
+        "PRIVILEGE2"
+        ],
+        "unionid": " o6_bmasdasdsad6_2sgVt7hMZOPfL"
+
+    }
     
